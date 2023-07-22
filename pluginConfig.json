@@ -1,0 +1,29 @@
+{
+  "pluginList": [
+    {
+      "pId":"001",
+      "pTitle":"Weather Forecast",
+      "url":""
+    },
+    {
+     "pId":"002",
+      "pTitle":"Wikipedia",
+      "url":"https://en.wikipedia.org/wiki/"
+    },
+    { 
+       "pId":"003",
+      "pTitle":"Undefined1",
+      "url":""
+    },
+    {
+      "pId":"004",
+      "pTitle":"Undefined2",
+      "url":""
+    },
+    {
+      " "pId":"005",
+      "pTitle":"Undefined3",
+      "url":""
+    }
+  ]
+}
