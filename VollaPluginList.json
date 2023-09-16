@@ -1,0 +1,23 @@
+{
+  "pluginList": [
+    {
+      "id":"e6b4cd3b-5d26-49e3-8c17-0591705fbfc1",
+      "name":"Weather Forecast",
+      "version":0.1,
+      "description":"It will add feature to get Weather Forecast directly from Springboard", 
+      "downloadUrl":"",
+      "minLauncherVersion": ,
+      "maxLauncherVersion":
+
+    },
+    {
+     "id":"9c7da032-14e7-4741-8228-cafc014f109c",
+      "name":"Wikipedia",
+      "version":0.1,
+      "description":"It will add feature to open Wikipedia from Springboard",
+      "downloadUrl":"",
+      "minLauncherVersion": ,
+      "maxLauncherVersion":
+    }
+  ]
+}
