@@ -1,37 +1,22 @@
-function metadata() {
-    'name': 'Wikipedia',
-    'description': 'It will add feature to open Wikipedia from Springboard',
-    'version': 0.1,
-    'minLauncherVersion':,
-    'maxLauncherVersion':
+WorkerScript.onMessage = function(message) {
 
+    var textInput = message.textInput
+    var actionId = message.actionId
+    var actionObj = message.actionOhj
+
+    if (actionId === undefined) {
+        // todo: Check valid input
+
+
+        WorkerScript.sendMessage( { 'pluginId': 'volla.wikipedia',
+                                    'actionId': 'volla.wikipedia',
+                                    'actionName': 'Wikipedia article',
+                                    'actionLocalizedName': { "de_DE": "Wikipedia-Artikel" },
+                                    'actionObj' : ''} ) // Coul be the id of the location
+    } else {
+        // todo: open wikipedia article
+
+
+        WorkerScript.sendMessage()
+    }
 }
-
-
-/*
-This is sample code need to execute at client side to start this script
-const item = init("testString");
-const methodNames = Object.keys(item);
-const methods = Object.values(item);
-console.log("returned item "+ methodNames + "  "+methods);
-if (typeof item[methodNames] === 'function') {
-    console.log(`Executing ${methodNames}: ${item[methodNames]()}`);
-}
-*/
-
-
-function init(inputParameter){
-    const stringProcessor = processInput(inputParameter);
-    return stringProcessor;
-}
-
-
-function processInput(inputString) {
-    // Process the input string here
-    // Todo : Need to validate for some regular expression
-    // Return an object containing the methods/functions
-    return {
-        "Open Wikipedia": function(inputString) { Qt.openUrlExternally("https://en.wikipedia.org/wiki/"+inputString); }
-    };
-}
-
