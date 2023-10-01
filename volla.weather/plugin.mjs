@@ -14,9 +14,9 @@ WorkerScript.onMessage = function(message) {
                                       'actionId': 'volla.weather',
                                       'actionName': 'Weather Forecast',
                                       'actionLocalizedName': { "de_DE": "Wettervorhersage" },
-                                      'actionType': 20030 } // Execute function
+                                      'actionType': 20030 } // Execute plugin function
                                   ] )
-    } else {
+    } else if (actionId === 'volla.weather') {
         // todo: open weather app
 
 
