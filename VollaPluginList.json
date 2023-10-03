@@ -5,7 +5,7 @@
       "name":"Weather Forecast",
       "version":0.1,
       "description":"It will add feature to get Weather Forecast directly from Springboard", 
-      "downloadUrl":"https://github.com/HelloVolla/android-launcher-plugin/blob/3adb6102c7ddab54ad13a75c7d75500131ecf499/volla.weather/plugin.mjs",
+      "downloadUrl": "https://raw.githubusercontent.com/HelloVolla/android-launcher-plugin/master/volla.weather/plugin.qml",
       "minLauncherVersion": 3,
       "maxLauncherVersion":
 
@@ -15,7 +15,7 @@
       "name":"Wikipedia",
       "version":0.1,
       "description":"It will add feature to open Wikipedia from Springboard",
-      "downloadUrl":"https://github.com/HelloVolla/android-launcher-plugin/blob/3adb6102c7ddab54ad13a75c7d75500131ecf499/volla.wikipedia/plugin.mjs",
+      "downloadUrl":"https://raw.githubusercontent.com/HelloVolla/android-launcher-plugin/master/volla.wikipedia/plugin.qml",
       "minLauncherVersion": 3,
       "maxLauncherVersion":
     }
