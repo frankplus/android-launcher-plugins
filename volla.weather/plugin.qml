@@ -1,7 +1,7 @@
-import QtQuick 2.12
+import QtQuick 2.12;
 
 QtObject {
-    id: volla_weather
+    id: volla_weather;
 
     property var metadata: {
         'name': 'Weather Forecast',
