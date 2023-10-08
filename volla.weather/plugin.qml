@@ -25,12 +25,13 @@ QtObject {
                 "label" : "Weather",
                 "funktion": function execute(inputString) {
                     // todo: Need to launch weather forecast app.
+                    console.debug("DO ANYTHING");
                 }
             },
             {
                 "label" : "Berlin",
-                "object" : 1224445 // a city id as a suggestion
+                "object" : "1224455" // a city id as a suggestion
             }
-       ]
+       ];
     }
 }
