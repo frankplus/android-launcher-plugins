@@ -9,7 +9,7 @@ QtObject {
         'version': 0.1,
         'minLauncherVersion': 3,
         'maxLauncherVersion': 100
-    }
+    };
 
     function init (inputParameter) {
         const stringProcessor = processInput (inputParameter);
@@ -18,7 +18,7 @@ QtObject {
 
     function processInput (inputString) {
         // Process the input string here
-        // Todo : Need to validate for city anme and need to check if weather forecast app is installed
+        // Todo : Need to validate for city name and need to check if weather forecast app is installed
         // Return an object containing the autocompletion or methods/functions
         return [
             {
