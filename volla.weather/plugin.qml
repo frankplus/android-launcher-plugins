@@ -9,7 +9,7 @@ QtObject {
         'version': 0.1,
         'minLauncherVersion': 3,
         'maxLauncherVersion': 100
-    };
+    }
 
     function init (inputParameter) {
         const stringProcessor = processInput (inputParameter);
