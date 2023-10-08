@@ -12,8 +12,8 @@ QtObject {
     }
 
     function init (inputParameter) {
-        const stringProcessor = processInput (inputParameter)
-        return stringProcessor
+        const stringProcessor = processInput (inputParameter);
+        return stringProcessor;
     }
 
     function processInput (inputString) {
@@ -31,6 +31,6 @@ QtObject {
                 "label" : "Berlin",
                 "object" : 1224445 // a city id as a suggestion
             }
-       ]
+       ];
     }
 }
