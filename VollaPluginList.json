@@ -1,23 +1,23 @@
 {
   "pluginList": [
     {
-      "id":"volla.weather",
+      "id":"volla_weather",
       "name":"Weather Forecast",
       "version":0.1,
       "description":"It will add feature to get Weather Forecast directly from Springboard", 
       "downloadUrl": "https://raw.githubusercontent.com/HelloVolla/android-launcher-plugin/master/volla.weather/plugin.qml",
       "minLauncherVersion": 3,
-      "maxLauncherVersion":
+      "maxLauncherVersion": 10
 
     },
     {
-     "id":"volla.wikipedia",
+     "id":"volla_wikipedia",
       "name":"Wikipedia",
       "version":0.1,
       "description":"It will add feature to open Wikipedia from Springboard",
       "downloadUrl":"https://raw.githubusercontent.com/HelloVolla/android-launcher-plugin/master/volla.wikipedia/plugin.qml",
       "minLauncherVersion": 3,
-      "maxLauncherVersion":
+      "maxLauncherVersion": 10
     }
   ]
 }
