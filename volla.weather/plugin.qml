@@ -31,6 +31,6 @@ QtObject {
                 "label" : "Berlin",
                 "object" : 1224445 // a city id as a suggestion
             }
-       ];
+       ]
     }
 }
