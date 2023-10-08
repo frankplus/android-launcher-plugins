@@ -22,14 +22,14 @@ QtObject {
         // Return an object containing the autocompletion or methods/functions
         return [
             {
-                "label" : "Weather",
-                "funktion": function (inputString) {
-                    console.debug("DO ANYTHING");
+                'label' : 'Weather',
+                'func': function (anyString) {
+                    console.debug('DO ANYTHING');
                 }
             },
             {
-                "label" : "Berlin",
-                "object" : 1224455
+                'label' : 'Berlin',
+                'object' : 1224455
             }
        ];
     }
