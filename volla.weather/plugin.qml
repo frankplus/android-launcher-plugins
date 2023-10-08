@@ -23,9 +23,7 @@ QtObject {
         return [
             {
                 "label" : "Weather",
-                "funktion": function(inputString) {
-                    console.debug("DO ANYTHING");
-                }
+                "funktion": 1
             },
             {
                 "label" : "Berlin",
