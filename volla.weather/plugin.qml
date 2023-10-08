@@ -23,7 +23,7 @@ QtObject {
         return [
             {
                 "label" : "Weather",
-                "funktion": function (inputString) {
+                "funktion": function execute(inputString) {
                     // todo: Need to launch weather forecast app.
                 }
             },
