@@ -12,8 +12,11 @@ QtObject {
     }
 
     function init (inputParameter) {
-        const stringProcessor = processInput (inputParameter);
-        return stringProcessor;
+        // Load any ressouces
+    }
+
+    function executeInput (inputString, inputObject, functionId) {
+        console.log('TYPE ANYTHING');
     }
 
     function processInput (inputString) {
@@ -23,9 +26,7 @@ QtObject {
         return [
             {
                 'label' : 'Weather',
-                'func': function (anyString) {
-                    console.debug('DO ANYTHING');
-                }
+                'functionId': 0
             },
             {
                 'label' : 'Berlin',

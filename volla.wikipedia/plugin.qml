@@ -16,14 +16,14 @@ QtObject {
         // todo: Load wiki articles for system language
     }
 
+    function executeInput (inputString, inputObject, functionId) {
+
+    }
+
     function processInput (inputString) {
         // Process the input string here
         // todo : Validate input by prefix and/or match to wiki article title
 
-        return {
-            "Open Wikipedia": function (inputString) {
-                // todo: Need to launch weather forecast app.
-            }
-        }
+        return {  }
     }
 }
