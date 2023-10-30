@@ -7,31 +7,34 @@ QtObject {
         'name': 'Weather Forecast',
         'description': 'It will add feature to get Weather Forecast directly from Springboard',
         'version': 0.1,
-        'minLauncherVersion': 3,
+        'minLauncherVersion': 2.3,
         'maxLauncherVersion': 100
     }
 
     function init (inputParameter) {
-        // Load any ressouces
+        // todo: Load city ressouces
     }
 
     function executeInput (inputString, inputObject, functionId) {
-        console.log('TYPE ANYTHING');
+        if (functionId === 0) {
+            var parameter = inputObject !== undefined ? "weater " + inputObject : "weater " + inputString;
+            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + parameter.encodeURI() + "&segment=startpage.volla")
+        } else {
+            console.warn(metadata.id + " | Unknown function " + functionId + " called")
+        }
     }
 
     function processInput (inputString) {
         // Process the input string here
-        // Todo : Need to validate for city name and need to check if weather forecast app is installed
+        // Validate input for city names fpr autocompretion suggestions
         // Return an object containing the autocompletion or methods/functions
-        return [
-            {
-                'label' : 'Weather',
-                'functionId': 0
-            },
-            {
-                'label' : 'Berlin',
-                'object' : 1224455
+        var suggestions = new Array
+        if (inputString.length > 1 && inputString.length < 100) {
+            suggestions = [{'label' : 'Weather', 'functionId': 0}];
+            if ('Berlin'.startsWith(inputString)) {
+                suggestions.push([{'label' : 'Berlin', 'object' : 'Berlin DE'}])
             }
-       ];
+        }
+        return suggestions
     }
 }
