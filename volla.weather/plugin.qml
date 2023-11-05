@@ -17,8 +17,8 @@ QtObject {
 
     function executeInput (inputString, inputObject, functionId) {
         if (functionId === 0) {
-            var parameter = inputObject !== undefined ? "weater " + inputObject : "weater " + inputString;
-            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + parameter.encodeURI() + "&segment=startpage.volla");
+            var parameter = inputObject !== undefined ? "weather " + inputObject : "weather " + inputString;
+            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + parameter.encodeURIComponent() + "&segment=startpage.volla");
         } else {
             console.warn(metadata.id + " | Unknown function " + functionId + " called");
         }
