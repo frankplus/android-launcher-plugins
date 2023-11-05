@@ -18,9 +18,9 @@ QtObject {
     function executeInput (inputString, inputObject, functionId) {
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? "weater " + inputObject : "weater " + inputString;
-            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + parameter.encodeURI() + "&segment=startpage.volla")
+            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + parameter.encodeURI() + "&segment=startpage.volla");
         } else {
-            console.warn(metadata.id + " | Unknown function " + functionId + " called")
+            console.warn(metadata.id + " | Unknown function " + functionId + " called");
         }
     }
 
@@ -28,14 +28,14 @@ QtObject {
         // Process the input string here
         // Validate input for city names fpr autocompretion suggestions
         // Return an object containing the autocompletion or methods/functions
-        var suggestions = new Array
+        var suggestions = new Array;
         if (inputString.length > 1 && inputString.length < 100) {
             suggestions = [{'label' : 'Weather', 'functionId': 0}];
 
             if ('Berlin'.startsWith(inputString)) {
-                suggestions.push([{'label' : 'Berlin', 'object' : 'Berlin DE'}])
+                suggestions.push([{'label' : 'Berlin', 'object' : 'Berlin DE'}]);
             }
         }
-        return suggestions
+        return suggestions;
     }
 }

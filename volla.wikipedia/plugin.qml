@@ -1,7 +1,7 @@
 import QtQuick 2.12
 
 QtObject {
-    id: volla_wikipedia
+    id: volla_wikipedia;
 
     property var metadata: {
         'name': 'Wikipedia',
@@ -19,10 +19,10 @@ QtObject {
     function executeInput (inputString, inputObject, functionId) {
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? inputObject : inputString;
-            var locale = Qt.locale().name
-            Qt.openUrlExternally("https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + parameter)
+            var locale = Qt.locale().name;
+            Qt.openUrlExternally("https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + parameter);
         } else {
-            console.warn(metadata.id + " | Unknown function " + functionId + " called")
+            console.warn(metadata.id + " | Unknown function " + functionId + " called");
         }
     }
 
@@ -33,6 +33,6 @@ QtObject {
         if (inputString.length > 1 && inputString < 140) {
             suggestions.push([{'label' : 'Wikipedia', 'functionId': 0}]);
         }
-        return suggestions
+        return suggestions;
     }
 }
