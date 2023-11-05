@@ -30,7 +30,7 @@ QtObject {
         // Process the input string here
         // todo: Validate input by prefix /w and find matching  wiki article titles with Wikipedia API
         var suggestions = new Array;
-        if (inputString.length > 1 && inputString < 140) {
+        if (inputString.length > 1 && inputString.length < 140) {
             suggestions.push([{'label' : 'Wikipedia', 'functionId': 0}]);
         }
         return suggestions;
