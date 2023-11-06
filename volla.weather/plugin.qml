@@ -36,6 +36,6 @@ QtObject {
                 suggestions.push({'label' : 'Berlin', 'object' : 'Berlin DE'});
             }
         }
-        return suggestions
+        return suggestions;
     }
 }

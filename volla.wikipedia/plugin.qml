@@ -33,6 +33,6 @@ QtObject {
         if (inputString.length > 1 && inputString.length < 140) {
             suggestions.push({'label' : 'Wikipedia', 'functionId': 0});
         }
-        return suggestions
+        return suggestions;
     }
 }
