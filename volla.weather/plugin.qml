@@ -1,9 +1,9 @@
 import QtQuick 2.12;
 
 QtObject {
-    id: volla_weather;
 
     property var metadata: {
+        'id': 'volla_weather',
         'name': 'Weather Forecast',
         'description': 'It will add feature to get Weather Forecast directly from Springboard',
         'version': 0.1,
