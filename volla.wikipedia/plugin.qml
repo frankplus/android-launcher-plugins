@@ -20,7 +20,9 @@ QtObject {
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? inputObject : inputString;
             var locale = Qt.locale().name;
-            Qt.openUrlExternally("https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + parameter);
+            var url = "https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + parameter
+            console.debug('Wiki Plugin | Will open ' + url)
+            Qt.openUrlExternally(url);
         } else {
             console.warn(metadata.id + " | Unknown function " + functionId + " called");
         }
