@@ -32,7 +32,7 @@ QtObject {
         if (inputString.length > 1 && inputString.length < 100) {
             suggestions = [{'label' : 'Weather', 'functionId': 0}];
 
-            if ('Berlin'.startsWith(inputString)) {
+            if ('Berlin'.startsWith(inputString) && !inputString.startsWith('Berlin')) {
                 suggestions.push({'label' : 'Berlin', 'object' : 'Berlin DE'});
             }
         }
