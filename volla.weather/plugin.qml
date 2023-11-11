@@ -8,7 +8,8 @@ QtObject {
         'description': 'It will add feature to get Weather Forecast directly from Springboard',
         'version': 0.1,
         'minLauncherVersion': 2.3,
-        'maxLauncherVersion': 100
+        'maxLauncherVersion': 100,
+        'resources': [ ]
     }
 
     function init (inputParameter) {
