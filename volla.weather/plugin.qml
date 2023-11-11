@@ -15,7 +15,7 @@ QtObject {
         // todo: Load city ressouces
     }
 
-    function executeInput (inputString, inputObject, functionId) {
+    function executeInput (inputString, functionId, inputObject) {
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? "weather " + inputObject : "weather " + inputString;
             Qt.openUrlExternally("https://startpage.com/sp/search?query=" + encodeURIComponent(parameter) + "&segment=startpage.volla");

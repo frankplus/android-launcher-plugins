@@ -16,7 +16,7 @@ QtObject {
         // todo: Load any resource if necessary
     }
 
-    function executeInput (inputString, inputObject, functionId) {
+    function executeInput (inputString, functionId, inputObject) {
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? inputObject : inputString;
             var locale = Qt.locale().name;
