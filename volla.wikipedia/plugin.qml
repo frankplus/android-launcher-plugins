@@ -45,28 +45,29 @@ QtObject {
 
     function getWikiArticles (inputParam){
         console.debug("Wiki Plugin | setting wiki request ")
-        var xmlRequest1 = new XMLHttpRequest();
-        xmlRequest1.onreadystatechange = function() {
-            if (xmlRequest1.readyState === XMLHttpRequest.DONE) {
-                console.debug("Wiki Plugin | got wiki request responce")
-                if (xmlRequest1.status === 200) {
-                    console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest1.responseText)
-                    var wiki = JSON.parse(xmlRequest1.responseText)
+        var xmlRequest = new XMLHttpRequest();
+        xmlRequest.onreadystatechange = function() {
+            if (xmlRequest.readyState === XMLHttpRequest.DONE) {
+                console.debug("Wiki Plugin | got wiki request responce"+xmlRequest.status)
+                if (xmlRequest.status === 200) {
+                    console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
+                    var wiki = JSON.parse(xmlRequest.responseText)
                     var query = wiki.query;
                     var wikiItems = new Array
                     wikiItems = query["prefixsearch"]
                     for (var i = 0; i < wikiItems.length; i++) {
-                        console.log("Settings | wiki items "+wikiItems[i].title)
+                        console.log("Wiki Plugin | wiki items "+wikiItems[i].title)
                     }
                 } else {
-                    mainView.showToast(qsTr("Couldn't load wiki"))
-                    console.error("Settings | Error retrieving wiki: ", xmlRequest1.status, xmlRequest1.statusText)
+
+                    console.error("Wiki Plugin | Error retrieving wiki: ", xmlRequest1.status, xmlRequest1.statusText)
                 }
                 return query;
             }
         };
         var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputParam;
-        xmlRequest1.open("GET", "wikiArturl")
+         console.log("Wiki Plugin | sending get wiki article request on url "+wikiArturl)
+        xmlRequest1.open("GET", wikiArturl)
         xmlRequest1.send();
 
     }
