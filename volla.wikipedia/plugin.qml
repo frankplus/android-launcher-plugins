@@ -32,7 +32,7 @@ QtObject {
         // Process the input string here
         // todo: Validate input by prefix /w and find matching  wiki article titles with Wikipedia API
         var suggestions = new Array;
-        console.debug("Wiki Plugin | setting wiki request ")
+        console.debug("Wiki Plugin | sending wiki request ")
         var xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = function() {
             if (xmlRequest.readyState === XMLHttpRequest.DONE) {
@@ -54,7 +54,7 @@ QtObject {
                 return suggestions;
             }
         };
-        var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputParam;
+        var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputString;
          console.log("Wiki Plugin | sending get wiki article request on url "+wikiArturl)
         xmlRequest.open("GET", wikiArturl)
         xmlRequest.send();
