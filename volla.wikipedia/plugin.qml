@@ -60,15 +60,15 @@ QtObject {
                     }
                 } else {
 
-                    console.error("Wiki Plugin | Error retrieving wiki: ", xmlRequest1.status, xmlRequest1.statusText)
+                    console.error("Wiki Plugin | Error retrieving wiki: ", xmlRequest.status, xmlRequest.statusText)
                 }
                 return query;
             }
         };
         var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputParam;
          console.log("Wiki Plugin | sending get wiki article request on url "+wikiArturl)
-        xmlRequest1.open("GET", wikiArturl)
-        xmlRequest1.send();
+        xmlRequest.open("GET", wikiArturl)
+        xmlRequest.send();
 
     }
 }
