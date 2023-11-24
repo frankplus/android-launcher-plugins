@@ -32,18 +32,6 @@ QtObject {
         // Process the input string here
         // todo: Validate input by prefix /w and find matching  wiki article titles with Wikipedia API
         var suggestions = new Array;
-        var wikiArticleArray = new Array;
-        var wikiArticle = getWikiArticles(inputString);
-        console.log("Wiki Plugin | wiki wikiArticle "+wikiArticle)
-        wikiArticleArray = wikiArticle["prefixsearch"]
-        for (var i = 0; i < wikiArticleArray.length; i++) {
-            suggestions.push({'label' : wikiArticleArray[i].title, 'functionId': 0});
-            console.log("Wiki Plugin | wiki items "+wikiItems[i].title)
-        }
-        return suggestions;
-    }
-
-    function getWikiArticles (inputParam){
         console.debug("Wiki Plugin | setting wiki request ")
         var xmlRequest = new XMLHttpRequest();
         xmlRequest.onreadystatechange = function() {
@@ -56,13 +44,14 @@ QtObject {
                     var wikiItems = new Array
                     wikiItems = query["prefixsearch"]
                     for (var i = 0; i < wikiItems.length; i++) {
+                        suggestions.push({'label' : wikiItems[i].title, 'functionId': 0});
                         console.log("Wiki Plugin | wiki items "+wikiItems[i].title)
                     }
                 } else {
 
                     console.error("Wiki Plugin | Error retrieving wiki: ", xmlRequest.status, xmlRequest.statusText)
                 }
-                return query;
+                return suggestions;
             }
         };
         var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputParam;
