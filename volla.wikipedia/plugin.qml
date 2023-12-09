@@ -54,7 +54,6 @@ QtObject {
                     console.log("Wiki Plugin | Calling callback true")
                     console.error("Wiki Plugin | Error retrieving wiki: ", xmlRequest.status, xmlRequest.statusText)
                 }
-                return suggestions;
             }
         };
         var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputString;
