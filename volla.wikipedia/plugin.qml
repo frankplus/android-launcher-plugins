@@ -39,13 +39,13 @@ QtObject {
                 console.debug("Wiki Plugin | got wiki request responce"+xmlRequest.status)
                 if (xmlRequest.status === 200) {
                     console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
+                    suggestions.push({'label' : 'Wikipedia', 'functionId': 0});
                     var wiki = JSON.parse(xmlRequest.responseText)
-                    var query = wiki.query;
-                    var wikiItems = new Array
-                    wikiItems = query["prefixsearch"]
+                    var query = wiki.query
+                    var wikiItems = query["prefixsearch"]
                     for (var i = 0; i < wikiItems.length; i++) {
-                        suggestions.push({'label' : wikiItems[i].title, 'functionId': 0});
-                        console.log("Wiki Plugin | wiki items "+wikiItems[i].title)
+                        suggestions.push({'label' : wikiItems[i].title, 'object': "url parameter for executing the function"}); // todo
+                        console.log("Wiki Plugin | wiki items " + wikiItems[i].title)
                     }
                     console.log("Wiki Plugin | Calling callback true")
                     callback(true, suggestions, metadata.id)
