@@ -25,7 +25,7 @@ QtObject {
         }
     }
 
-    function processInput (inputString) {
+    function processInput (inputString, callback) {
         // Process the input string here
         // Validate input for city names fpr autocompretion suggestions
         // Return an object containing the autocompletion or methods/functions
@@ -37,6 +37,6 @@ QtObject {
                 suggestions.push({'label' : 'Berlin', 'object' : 'Berlin DE'});
             }
         }
-        return suggestions;
+        callback(true, suggestions, metadata.id);
     }
 }
