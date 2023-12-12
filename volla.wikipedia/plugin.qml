@@ -18,7 +18,7 @@ QtObject {
 
     function executeInput (inputString, functionId, inputObject) {
         if (functionId === 0) {
-            var parameter = inputObject !== undefined ? inputObject : inputString;
+            var parameter = inputObject !== undefined ? inputObject.title : inputString;
             var locale = Qt.locale().name;
             var url = "https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + parameter;
             console.debug('Wiki Plugin | Will open ' + url);
@@ -44,7 +44,7 @@ QtObject {
                     var query = wiki.query
                     var wikiItems = query["prefixsearch"]
                     for (var i = 0; i < wikiItems.length; i++) {
-                        suggestions.push({'label' : wikiItems[i].title, 'object': "url parameter for executing the function"}); // todo
+                        suggestions.push({'label' : wikiItems[i].title, 'object': wikiItems[i]});
                         console.log("Wiki Plugin | wiki items " + wikiItems[i].title)
                     }
                     console.log("Wiki Plugin | Calling callback true")
