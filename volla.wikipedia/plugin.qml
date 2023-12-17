@@ -6,7 +6,7 @@ QtObject {
         'id': 'volla_wikipedia',
         'name': 'Wikipedia',
         'description': 'It will add feature to open Wikipedia from Springboard',
-        'version': 0.1,
+        'version': 0.2,
         'minLauncherVersion': 2.3,
         'maxLauncherVersion': 100,
         'resources': [ ]

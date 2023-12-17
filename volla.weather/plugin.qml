@@ -6,7 +6,7 @@ QtObject {
         'id': 'volla_weather',
         'name': 'Weather Forecast',
         'description': 'It will add feature to get Weather Forecast directly from Springboard',
-        'version': 0.1,
+        'version': 0.2,
         'minLauncherVersion': 2.3,
         'maxLauncherVersion': 100,
         'resources': [ ]
