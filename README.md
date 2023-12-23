@@ -43,20 +43,21 @@ property var metadata: {
 
 ### Process input
   
-The javascript method to process the entered string in the smart textfield of the springboard. It returns matching functions or autocompletions, which appear under the smart textvield.
+The javascript method to process the entered string in the smart textfield of the springboard. It returns matching functions or autocompletions, which appear under the smart textvield. The callback function allows asynchronous operations like web service requests.
 
 ```
-function processInput (inputString) {
-  var suggestions = new Array
-  if (inputString.length > 1 && inputString.length < 100) {
-    suggestions = [{'label' : 'Weather', 'functionId': 0}]
-    if ('Berlin'.startsWith(inputString) && !inputString.startsWith('Berlin')) {
-      suggestions.push({'label' : 'Berlin', 'object' : 'Berlin DE'})
-    }
-  }
-  return suggestions
-}
-```
+function processInput (inputString, callback) {
+   var suggestions = new Array;
+   if (inputString.length > 1 && inputString.length < 100) {
+      suggestions = [{'label' : 'Weather', 'functionId': 0}];
+
+      if ('Berlin'.startsWith(inputString) && !inputString.startsWith('Berlin')) {
+         suggestions.push({'label' : 'Berlin', 'object' : 'Berlin DE'});
+      }
+
+      callback(true, suggestions, metadata.id);
+   }
+}```
 
 ### Process function
 
