@@ -34,6 +34,7 @@ QtObject {
 
             if (!isNaN(calcResult)) {
                 var outputString = inputString + ' = ' + calcResult;
+                console.debug("Calculator Plugin | Output string: " + outputString);
                 suggestions = [{'label' : outputString}];
             }
         }
