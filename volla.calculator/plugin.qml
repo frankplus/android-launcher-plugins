@@ -32,7 +32,7 @@ QtObject {
 
             console.debug("Calculator Plugin | calc result: " + calcResult)
 
-            if (calcResult !== NaN) {
+            if (!isNaN(calcResult)) {
                 var outputString = inputString + ' = ' + calcResult;
                 suggestions = [{'label' : outputString}];
             }
@@ -41,6 +41,12 @@ QtObject {
     }
 
     function parse(str) {
-      return Function(`'use strict'; return (${str})`)()
+        try {
+            return Function(`'use strict'; return (${str})`)()
+        } catch (e) {
+            console.warn("Calculator Plugin | Parsing error: " + e)
+            return ""
+        }
+
     }
 }
