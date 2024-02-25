@@ -30,6 +30,8 @@ QtObject {
         if (inputString.length > 1 && inputString.length < 100) {
             var calcResult = evaluateMath(inputString);
 
+            console.debug("Calculator Plugin | calc result: " + calcResult)
+
             if (calcResult !== NaN) {
                 var outputString = inputString + ' = ' + calcResult;
                 suggestions = [{'label' : outputString}];
