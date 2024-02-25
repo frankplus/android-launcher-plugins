@@ -28,7 +28,7 @@ QtObject {
     function processInput (inputString, callback) {
         var suggestions = new Array;
         if (inputString.length > 1 && inputString.length < 100) {
-            var calcResult = evaluateMath(inputString);
+            var calcResult = parse(inputString);
 
             console.debug("Calculator Plugin | calc result: " + calcResult)
 
@@ -40,20 +40,7 @@ QtObject {
         callback(true, suggestions, metadata.id);
     }
 
-    function evaluateMath(str) {
-        for (var i = 0; i < str.length; i++) {
-            if (isNaN(str[i]) && !['+', '-', '/', '*', '%', '**'].includes(str[i])) {
-                return NaN;
-            }
-        }
-
-        console.debug("Calculator Plugin | Passed input check ")
-
-        try {
-            return Math.eval(str);
-        } catch (e) {
-            if (e.name !== 'SyntaxError') throw e;
-            return NaN;
-        }
+    function parse(str) {
+      return Function(`'use strict'; return (${str})`)()
     }
 }
