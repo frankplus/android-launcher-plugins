@@ -47,8 +47,10 @@ QtObject {
             }
         }
 
+        console.debug("Calculator Plugin | Passed input check ")
+
         try {
-            return eval(str);
+            return Math.eval(str);
         } catch (e) {
             if (e.name !== 'SyntaxError') throw e;
             return NaN;
