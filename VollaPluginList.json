@@ -17,7 +17,7 @@
       "downloadUrl":"https://raw.githubusercontent.com/HelloVolla/android-launcher-plugin/dev/volla.wikipedia/plugin.qml",
       "minLauncherVersion": 2.3,
       "maxLauncherVersion": 10
-    }
+    },
     {
      "id":"volla_calculator",
       "name":"Calculator",
