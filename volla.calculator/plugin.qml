@@ -30,7 +30,7 @@ QtObject {
         if (inputString.length > 1 && inputString.length < 100) {
             var calcResult = parse(inputString);
 
-            console.debug("Calculator Plugin | calc result: " + calcResult)
+            console.debug("Calculator Plugin | calc result: " + calcResult);
 
             if (!isNaN(calcResult)) {
                 var outputString = inputString + ' = ' + calcResult;
