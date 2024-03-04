@@ -5,7 +5,7 @@ QtObject {
     property var metadata: {
         'id': 'volla_calculator',
         'name': 'Calculator',
-        'description': 'This pligin will add a simple caclulator to the springboard',
+        'description': 'This plugin will add a simple caclulator to the springboard',
         'version': 0.1,
         'minLauncherVersion': 3,
         'maxLauncherVersion': 100,
@@ -17,12 +17,7 @@ QtObject {
     }
 
     function executeInput (inputString, functionId, inputObject) {
-        if (functionId === 0) {
-            var parameter = inputObject !== undefined ? "weather " + inputObject : "weather " + inputString;
-            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + encodeURIComponent(parameter) + "&segment=startpage.volla");
-        } else {
-            console.warn(metadata.id + " | Unknown function " + functionId + " called");
-        }
+
     }
 
     function processInput (inputString, callback) {
@@ -43,11 +38,10 @@ QtObject {
 
     function parse(str) {
         try {
-            return Function(`'use strict'; return (${str})`)()
+            return Function(`'use strict'; return (${str})`)();
         } catch (e) {
-            console.warn("Calculator Plugin | Parsing error: " + e)
-            return ""
+            console.warn("Calculator Plugin | Parsing error: " + e);
+            return "";
         }
-
     }
 }
