@@ -6,8 +6,8 @@ QtObject {
         'id': 'volla_wikipedia',
         'name': 'Wikipedia',
         'description': 'It will add feature to open Wikipedia from Springboard',
-        'version': 0.2,
-        'minLauncherVersion': 2.3,
+        'version': 0.3,
+        'minLauncherVersion': 3,
         'maxLauncherVersion': 100,
         'resources': [ ]
     }
@@ -28,16 +28,29 @@ QtObject {
         }
     }
 
-    function processInput (inputString, callback) {
+    function processInput (inputString, callback, inputObject) {
         // Process the input string here
         // todo: Validate input by prefix /w
         var suggestions = new Array;
-        if (inputString.length > 1  && inputString.length < 140) {
+        if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
+            // todo: retrieve summary
+            var locale = Qt.locale().name;
+            var url = "https://"+ locale.split('_')[0]
+                    + '.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles='
+                    + inputObject.title
+            var summaryRequest = new XMLHttpRequest();
+            summaryRequest.onreadystatechange = function() {
+                if (xmlRequest.readyState === XMLHttpRequest.DONE) {
+                    console.debug("Wiki Plugin | Summary request responce " + xmlRequest.status)
+
+                }
+            }
+        } else if (nputObject === undefined && inputString.length > 1  && inputString.length < 140) {
             console.debug("Wiki Plugin | sending wiki request ")
             var xmlRequest = new XMLHttpRequest();
             xmlRequest.onreadystatechange = function() {
                 if (xmlRequest.readyState === XMLHttpRequest.DONE) {
-                    console.debug("Wiki Plugin | got wiki request responce"+xmlRequest.status)
+                    console.debug("Wiki Plugin | Article request responce " + xmlRequest.status)
                     if (xmlRequest.status === 200) {
                         console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
                         suggestions.push({'label' : 'Wikipedia', 'functionId': 0})

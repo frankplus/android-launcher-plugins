@@ -6,37 +6,84 @@ QtObject {
         'id': 'volla_weather',
         'name': 'Weather Forecast',
         'description': 'It will add feature to get Weather Forecast directly from Springboard',
-        'version': 0.2,
-        'minLauncherVersion': 2.3,
+        'version': 0.3,
+        'minLauncherVersion': 3,
         'maxLauncherVersion': 100,
         'resources': [ ]
     }
 
+    property String apiKey: "488297aabb1676640ac7fc10a6c5a2d1"
+
     function init (inputParameter) {
-        // todo: Load city ressouces
     }
 
     function executeInput (inputString, functionId, inputObject) {
-        if (functionId === 0) {
-            var parameter = inputObject !== undefined ? "weather " + inputObject : "weather " + inputString;
-            Qt.openUrlExternally("https://startpage.com/sp/search?query=" + encodeURIComponent(parameter) + "&segment=startpage.volla");
+    }
+
+    function processInput (inputString,  callback, inputObject) {
+        // Process the input string here
+        // Validate input for city names fpr autocompretion suggestions
+        // Return an object containing the autocompletion or interactive live result
+        console.debug("Weather Plugin | Process input string")
+        var suggestions = new Array
+        if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
+            var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
+            if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
+                getWeather(inputObject.lat, inputObject.lon, callback)
+        } else if (inputObject === undefined && inputString.length > 1 && inputString.length < 100) {
+            var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputString.replace(/\s+/g,"") + "&limit=5&appid=" + apiKey;
+            var locationRequest = new XMLHttpRequest()
+            locationRequest.onreadystatechange = function() {
+                if (locationRequest.readyState === XMLHttpRequest.DONE) {
+                    console.debug("Weather Plugin | Location response: " + xmlRequest.status)
+                    if (xmlRequest.status === 200) {
+                        var locations = JSON.parse(xmlRequest.responseText)
+                        if (locations.length === 1) {
+                            getWeather(locations[0].lat, locations[0].lon, callback)
+                        } else {
+                            for (var i = 0; i < locations.length; i++) {
+                                var location = ocations[i].name + ", " + locations[i].state + "," + locations[i].country
+                                suggestions.push({'label' : location, 'object': locations[i]});
+                                console.log("Weather Plugin | Found location candidate " + location)
+                            }
+                            console.debug("Weather Plugin | Calling callback true")
+                            callback(true, suggestions, metadata.id)
+                        }
+                    } else {
+                        console.error("Weather Plugin | Error retrieving locations: ", xmlRequest.status, xmlRequest.statusText)
+                        callback(false, suggestions, metadata.id)
+                    }
+                }
+            }
+            locationRequest.open("GET", geoCodingUrl)
+            locationRequest.send()
         } else {
-            console.warn(metadata.id + " | Unknown function " + functionId + " called");
+            callback(true, suggestions, metadata.id);
         }
     }
 
-    function processInput (inputString, callback) {
-        // Process the input string here
-        // Validate input for city names fpr autocompretion suggestions
-        // Return an object containing the autocompletion or methods/functions
-        var suggestions = new Array;
-        if (inputString.length > 1 && inputString.length < 100) {
-            suggestions = [{'label' : 'Weather', 'functionId': 0}];
-
-            if ('Berlin'.startsWith(inputString) && !inputString.startsWith('Berlin')) {
-                suggestions.push({'label' : 'Berlin', 'object' : 'Berlin DE'});
+    function getWeather (lat, lon, callback) {
+        console.debug("Weather Plugin | Will request weather")
+        var weatherUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat  + "&lon=" + lon + "&units=metric&appid=" + apiKey
+        var weatherRequest = new XMLHttpRequest()
+        weatherRequest.onreadystatechange = function() {
+            if (locationRequest.readyState === XMLHttpRequest.DONE) {
+                console.debug("Weather Plugin | Weather response: " + xmlRequest.status)
+                if (xmlRequest.status === 200) {
+                    var weather = JSON.parse(xmlRequest.responseText)
+                    var weatherIcon = "https://openweathermap.org/img/wn/" + weather.current.weather.icon + "@2x.png"
+                    var outputString = "<image src=\"" + weatherIcon + "\"> " + weather.current.temp + " °C " + weather.current.description
+                    var link = "https://startpage.com/sp/search?query=" + inputString + "&segment=startpage.volla"
+                    suggestions.push({'label' : outputString, 'link' : link})
+                    console.debug("Weather Plugin | Calling callback true")
+                    callback(true, suggestions, metadata.id)
+                } else {
+                    console.error("Weather Plugin | Error retrieving weather: ", xmlRequest.status, xmlRequest.statusText)
+                    callback(false, suggestions, metadata.id)
+                }
             }
         }
-        callback(true, suggestions, metadata.id);
+        weatherRequest.open("GET", weatherUrl)
+        weatherRequest.send()
     }
 }

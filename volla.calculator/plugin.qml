@@ -20,9 +20,9 @@ QtObject {
 
     }
 
-    function processInput (inputString, callback) {
+    function processInput (inputString, callback, inputObject) {
         var suggestions = new Array;
-        if (inputString.length > 1 && inputString.length < 100) {
+        if (inputObject === undefined && inputString.length > 1 && inputString.length < 100) {
             var calcResult = parse(inputString);
 
             console.debug("Calculator Plugin | calc result: " + calcResult);
