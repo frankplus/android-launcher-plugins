@@ -25,7 +25,6 @@ QtObject {
         // Validate input for city names fpr autocompretion suggestions
         // Return an object containing the autocompletion or interactive live result
         console.debug("Weather Plugin | Process input string")
-        var suggestions = new Array
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
             var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
             if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
@@ -35,12 +34,13 @@ QtObject {
             var locationRequest = new XMLHttpRequest()
             locationRequest.onreadystatechange = function() {
                 if (locationRequest.readyState === XMLHttpRequest.DONE) {
-                    console.debug("Weather Plugin | Location response: " + xmlRequest.status)
-                    if (xmlRequest.status === 200) {
-                        var locations = JSON.parse(xmlRequest.responseText)
+                    console.debug("Weather Plugin | Location response: " + locationRequest.status)
+                    if (locationRequest.status === 200) {
+                        var locations = JSON.parse(locationRequest.responseText)
                         if (locations.length === 1) {
                             getWeather(locations[0].lat, locations[0].lon, callback)
                         } else {
+                            var suggestions = new Array
                             for (var i = 0; i < locations.length; i++) {
                                 var location = ocations[i].name + ", " + locations[i].state + "," + locations[i].country
                                 suggestions.push({'label' : location, 'object': locations[i]});
@@ -50,7 +50,7 @@ QtObject {
                             callback(true, suggestions, metadata.id)
                         }
                     } else {
-                        console.error("Weather Plugin | Error retrieving locations: ", xmlRequest.status, xmlRequest.statusText)
+                        console.error("Weather Plugin | Error retrieving locations: ", locationRequest.status, locationRequest.statusText)
                         callback(false, suggestions, metadata.id)
                     }
                 }
@@ -67,18 +67,19 @@ QtObject {
         var weatherUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat  + "&lon=" + lon + "&units=metric&appid=" + apiKey
         var weatherRequest = new XMLHttpRequest()
         weatherRequest.onreadystatechange = function() {
-            if (locationRequest.readyState === XMLHttpRequest.DONE) {
-                console.debug("Weather Plugin | Weather response: " + xmlRequest.status)
-                if (xmlRequest.status === 200) {
-                    var weather = JSON.parse(xmlRequest.responseText)
-                    var weatherIcon = "https://openweathermap.org/img/wn/" + weather.current.weather.icon + "@2x.png"
+            if (weatherRequest.readyState === XMLHttpRequest.DONE) {
+                console.debug("Weather Plugin | Weather response: " + weatherRequest.status)
+                if (weatherRequest.status === 200) {
+                    var weather = JSON.parse(weatherRequest.responseText)
+                    var weatherIcon = "https://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png"
                     var outputString = "<image src=\"" + weatherIcon + "\"> " + weather.current.temp + " °C " + weather.current.description
                     var link = "https://startpage.com/sp/search?query=" + inputString + "&segment=startpage.volla"
+                    var suggestions = new Array
                     suggestions.push({'label' : outputString, 'link' : link})
                     console.debug("Weather Plugin | Calling callback true")
                     callback(true, suggestions, metadata.id)
                 } else {
-                    console.error("Weather Plugin | Error retrieving weather: ", xmlRequest.status, xmlRequest.statusText)
+                    console.error("Weather Plugin | Error retrieving weather: ", weatherRequest.status, weatherRequest.statusText)
                     callback(false, suggestions, metadata.id)
                 }
             }
