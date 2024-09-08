@@ -24,7 +24,7 @@ QtObject {
         // Process the input string here
         // Validate input for city names fpr autocompretion suggestions
         // Return an object containing the autocompletion or interactive live result
-        console.debug("Weather Plugin | Process input string")
+        console.debug("Weather Plugin | Process input string: " + inputString)
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
             var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
             if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
@@ -69,6 +69,7 @@ QtObject {
         weatherRequest.onreadystatechange = function() {
             if (weatherRequest.readyState === XMLHttpRequest.DONE) {
                 console.debug("Weather Plugin | Weather response: " + weatherRequest.status)
+                console.debug("Weather Plugin | Weather response: " + weatherRequest.responseText)
                 if (weatherRequest.status === 200) {
                     var weather = JSON.parse(weatherRequest.responseText)
                     var weatherIcon = "https://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png"

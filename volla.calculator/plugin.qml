@@ -41,7 +41,7 @@ QtObject {
             return Function(`'use strict'; return (${str})`)();
         } catch (e) {
             console.warn("Calculator Plugin | Parsing error: " + e);
-            return "";
+            return NaN;
         }
     }
 }
