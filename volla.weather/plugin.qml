@@ -12,7 +12,7 @@ QtObject {
         'resources': [ ]
     }
 
-    property String apiKey: "488297aabb1676640ac7fc10a6c5a2d1"
+    property string apiKey: "488297aabb1676640ac7fc10a6c5a2d1"
 
     function init (inputParameter) {
     }
