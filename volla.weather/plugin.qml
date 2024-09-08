@@ -42,7 +42,7 @@ QtObject {
                         } else {
                             var suggestions = new Array
                             for (var i = 0; i < locations.length; i++) {
-                                var location = ocations[i].name + ", " + locations[i].state + "," + locations[i].country
+                                var location = locations[i].name + ", " + locations[i].state + "," + locations[i].country
                                 suggestions.push({'label' : location, 'object': locations[i]});
                                 console.log("Weather Plugin | Found location candidate " + location)
                             }
