@@ -38,7 +38,7 @@ QtObject {
                     if (locationRequest.status === 200) {
                         var locations = JSON.parse(locationRequest.responseText)
                         if (locations.length === 1) {
-                            getWeather(locations[0].lat, locations[0].lon, callback)
+                            getWeather(locations[0].name, locations[0].lat, locations[0].lon, callback)
                         } else {
                             var suggestions = new Array
                             for (var i = 0; i < locations.length; i++) {
@@ -62,7 +62,7 @@ QtObject {
         }
     }
 
-    function getWeather (lat, lon, callback) {
+    function getWeather (location, lat, lon, callback) {
         console.debug("Weather Plugin | Will request weather")
         var weatherUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat  + "&lon=" + lon + "&units=metric&appid=" + apiKey
         var weatherRequest = new XMLHttpRequest()
@@ -75,7 +75,7 @@ QtObject {
                     var weatherIcon = "https://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png"
                     console.debug("Weather Plugin | " + weatherIcon, weather.current.temp, weather.current.weather[0].description)
                     var outputString = "<image src=\"" + weatherIcon + "\"> " + weather.current.temp + " °C " + weather.current.weather[0].description
-                    var link = "https://startpage.com/sp/search?query=" + inputString + "&segment=startpage.volla"
+                    var link = "https://startpage.com/sp/search?query=weather " + location + "&segment=startpage.volla"
                     var suggestions = new Array
                     suggestions.push({'label' : outputString, 'link' : link})
                     console.debug("Weather Plugin | Calling callback true")
