@@ -74,7 +74,7 @@ QtObject {
                     var weather = JSON.parse(weatherRequest.responseText)
                     var weatherIcon = "https://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png"
                     console.debug("Weather Plugin | " + weatherIcon, weather.current.temp, weather.current.weather[0].description)
-                    var outputString = "<table><tr><td><img src=\"" + weatherIcon + "\"></td><td style=\"text-align:left;vertical-align:center\">"
+                    var outputString = "<table><tr><td><img src=\"" + weatherIcon + "\"></td><td style=\"margin:0;position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%);\">"
                             + weather.current.temp + " °C " + weather.current.weather[0].description + "</td></tr></table>"
                     var link = "https://startpage.com/sp/search?query=weather " + location + "&segment=startpage.volla"
                     var suggestions = new Array
