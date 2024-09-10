@@ -45,7 +45,7 @@ QtObject {
 
                 }
             }
-        } else if (nputObject === undefined && inputString.length > 1  && inputString.length < 140) {
+        } else if (inputObject === undefined && inputString.length > 1  && inputString.length < 140) {
             console.debug("Wiki Plugin | sending wiki request ")
             var xmlRequest = new XMLHttpRequest();
             xmlRequest.onreadystatechange = function() {
