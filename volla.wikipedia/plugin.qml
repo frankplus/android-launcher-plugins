@@ -58,7 +58,7 @@ QtObject {
                         var query = wiki.query
                         var wikiItems = query["prefixsearch"]
                         for (var i = 0; i < wikiItems.length; i++) {
-                            suggestions.push({'label' : wikiItems[i].title, 'object': wikiItems[i]});
+                            suggestions.push({'label' : metadata.name + " : " + wikiItems[i].title, 'object': wikiItems[i]});
                             console.log("Wiki Plugin | wiki items " + wikiItems[i].title)
                         }
                         console.log("Wiki Plugin | Calling callback true")
