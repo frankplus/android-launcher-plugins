@@ -42,6 +42,18 @@ QtObject {
             summaryRequest.onreadystatechange = function() {
                 if (xmlRequest.readyState === XMLHttpRequest.DONE) {
                     console.debug("Wiki Plugin | Summary request responce " + xmlRequest.status)
+                    if (xmlRequest.status === 200) {
+                        console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
+                        suggestions.push({'label' : 'Wikipedia', 'functionId': 0})
+                        var wiki = JSON.parse(xmlRequest.responseText)
+                        var query = wiki.query
+                        var pages = query.pages
+                        var keys = Object.keys(pages);
+                        for (var i = 0; i < keys.length; i++) {
+                            console.log("Wiki Plugin | query-pages-keys" + keys[i])
+                        }
+                        callback(true, suggestions, metadata.id)
+                    }
 
                 }
             }
