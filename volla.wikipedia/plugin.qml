@@ -42,6 +42,19 @@ QtObject {
             summaryRequest.onreadystatechange = function() {
                 if (xmlRequest.readyState === XMLHttpRequest.DONE) {
                     console.debug("Wiki Plugin | Summary request responce " + xmlRequest.status)
+                    if (xmlRequest.status === 200) {
+                        console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
+                        suggestions.push({'label' : 'Wikipedia', 'functionId': 0})
+                        var wiki = JSON.parse(xmlRequest.responseText)
+                        var query = wiki.query
+                        var pages = query.pages
+                        var keys = Object.keys(pages);
+                        for (var i = 0; i < keys.length; i++) {
+                            console.log("Wiki Plugin | query-pages-keys" + keys[i])
+                            suggestions.push({'label' : metadata.name + " : " + keys[i].extract, 'object': keys[i]});
+                        }
+                        callback(true, suggestions, metadata.id)
+                    }
 
                 }
             }
@@ -58,7 +71,7 @@ QtObject {
                         var query = wiki.query
                         var wikiItems = query["prefixsearch"]
                         for (var i = 0; i < wikiItems.length; i++) {
-                            suggestions.push({'label' : wikiItems[i].title, 'object': wikiItems[i]});
+                            suggestions.push({'label' : metadata.name + " : " + wikiItems[i].title, 'object': wikiItems[i]});
                             console.log("Wiki Plugin | wiki items " + wikiItems[i].title)
                         }
                         console.log("Wiki Plugin | Calling callback true")
