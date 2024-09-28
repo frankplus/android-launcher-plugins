@@ -51,7 +51,12 @@ QtObject {
                         var keys = Object.keys(pages);
                         for (var i = 0; i < keys.length; i++) {
                             console.log("Wiki Plugin | query-pages-keys" + keys[i])
-                            suggestions.push({'label' : metadata.name + " : " + keys[i].extract, 'object': keys[i]});
+                            var output = metadata.name + " : " + keys[i].extract
+                            if(keys[i].hasOwnProperty("imageinfo")) {
+                                var imageURL = keys[i].imageinfo[0].url;
+                                output = output+ "<p><img src=\"" + imageURL + "\"></p><p>"
+                            }
+                            suggestions.push({'label' : output, 'object': keys[i]});
                         }
                         callback(true, suggestions, metadata.id)
                     }
