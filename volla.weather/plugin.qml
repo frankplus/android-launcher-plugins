@@ -25,6 +25,7 @@ QtObject {
         // Validate input for city names fpr autocompretion suggestions
         // Return an object containing the autocompletion or interactive live result
         console.debug("Weather Plugin | Process input string: " + inputString)
+        var suggestions = new Array
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
             var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
             if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
@@ -40,7 +41,7 @@ QtObject {
                         if (locations.length === 1) {
                             getWeather(locations[0].name, locations[0].lat, locations[0].lon, callback)
                         } else {
-                            var suggestions = new Array
+                            suggestions = [];
                             for (var i = 0; i < locations.length; i++) {
                                 var location = locations[i].name + ", " + locations[i].state + "," + locations[i].country
                                 suggestions.push({'label' : metadata.name + " : "+ location, 'object': locations[i]});
