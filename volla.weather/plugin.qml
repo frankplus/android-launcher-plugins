@@ -27,9 +27,9 @@ QtObject {
         console.debug("Weather Plugin | Process input string: " + inputString)
         var suggestions = new Array
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
-            var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
-            if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
-                getWeather(inputObject.lat, inputObject.lon, callback)
+            var compareStr = inputObject.entity['name'] + ", " + inputObject.entity['state'] +","+ inputObject.entity['country']
+        if (inputString.toLowerCase().trim() === compareStr.toLowerCase())
+                getWeather(inputObject.entity['name'],inputObject.entity['lat'], inputObject.entity['lon'], callback)
         } else if (inputObject === undefined && inputString.length > 1 && inputString.length < 100) {
             var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputString.replace(/\s+/g,"") + "&limit=5&appid=" + apiKey;
             var locationRequest = new XMLHttpRequest()
@@ -44,7 +44,7 @@ QtObject {
                             suggestions = [];
                             for (var i = 0; i < locations.length; i++) {
                                 var location = locations[i].name + ", " + locations[i].state + "," + locations[i].country
-                                suggestions.push({'label' : metadata.name + " : "+ location, 'object': locations[i]});
+                                suggestions.push({'label' : location, 'object': locations[i]});
                                 console.log("Weather Plugin | Found location candidate " + location)
                             }
                             console.debug("Weather Plugin | Calling callback true")
