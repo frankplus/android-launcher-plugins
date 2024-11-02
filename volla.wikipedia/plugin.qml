@@ -37,7 +37,7 @@ QtObject {
             var locale = Qt.locale().name;
             var url = "https://"+ locale.split('_')[0]
                     + '.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles='
-                    + selectedObj.entity[key]
+                    + inputObject.entity["title"]
             var summaryRequest = new XMLHttpRequest();
             summaryRequest.onreadystatechange = function() {
                 if (summaryRequest.readyState === XMLHttpRequest.DONE) {
