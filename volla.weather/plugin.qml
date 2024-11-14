@@ -43,8 +43,14 @@ QtObject {
                         } else {
                             suggestions = [];
                             for (var i = 0; i < locations.length; i++) {
-                                var location = locations[i].name + ", " + locations[i].state + "," + locations[i].country
-                                suggestions.push({'label' : location, 'object': locations[i]});
+                                var location = locations[i].name
+                                if(locations[i].state !== undefined ){
+                                    location = location + ", " + locations[i].state
+                                }
+                                if(locations[i].country !== undefined ){
+                                    location = location + ", " + locations[i].country
+                                }
+                                suggestions.push({'label' : metadata.name + " : " +location, 'object': locations[i]});
                                 console.log("Weather Plugin | Found location candidate " + location)
                             }
                             console.debug("Weather Plugin | Calling callback true")
