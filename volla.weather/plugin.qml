@@ -25,12 +25,11 @@ QtObject {
         // Validate input for city names for autocompretion suggestions
         // Return an object containing the autocompletion or interactive live result
         console.debug("Weather Plugin | Process input string: " + inputString)
-        // Use case 2: User has selected a location to get the weather report as live content
+        var suggestions = new Array
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
-            var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
-            if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
-                getWeather(inputObject.lat, inputObject.lon, callback)
-        // Use case 1: User is typing to find a location for a weather report
+            var compareStr = inputObject.entity['name'] + ", " + inputObject.entity['state'] +","+ inputObject.entity['country']
+        if (inputString.toLowerCase().trim() === compareStr.toLowerCase())
+                getWeather(inputObject.entity['name'],inputObject.entity['lat'], inputObject.entity['lon'], callback)
         } else if (inputObject === undefined && inputString.length > 1 && inputString.length < 100) {
             var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputString.replace(/\s+/g,"") + "&limit=5&appid=" + apiKey;
             var locationRequest = new XMLHttpRequest()
@@ -42,10 +41,16 @@ QtObject {
                         if (locations.length === 1) {
                             getWeather(locations[0].name, locations[0].lat, locations[0].lon, callback)
                         } else {
-                            var suggestions = new Array
+                            suggestions = [];
                             for (var i = 0; i < locations.length; i++) {
-                                var location = locations[i].name + ", " + locations[i].state + "," + locations[i].country
-                                suggestions.push({'label' : metadata.name + " : "+ location, 'object': locations[i]});
+                                var location = locations[i].name
+                                if(locations[i].state !== undefined ){
+                                    location = location + ", " + locations[i].state
+                                }
+                                if(locations[i].country !== undefined ){
+                                    location = location + ", " + locations[i].country
+                                }
+                                suggestions.push({'label' : metadata.name + " : " +location, 'object': locations[i]});
                                 console.log("Weather Plugin | Found location candidate " + location)
                             }
                             console.debug("Weather Plugin | Calling callback true")

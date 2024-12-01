@@ -41,33 +41,36 @@ QtObject {
             var locale = Qt.locale().name;
             var url = "https://"+ locale.split('_')[0]
                     + '.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles='
-                    + inputObject.title
+                    + inputObject.entity["title"]
             var summaryRequest = new XMLHttpRequest();
             summaryRequest.onreadystatechange = function() {
-                if (xmlRequest.readyState === XMLHttpRequest.DONE) {
-                    console.debug("Wiki Plugin | Summary request response " + xmlRequest.status)
-                    if (xmlRequest.status === 200) {
-                        console.log("Wiki Plugin | Summary request response text: " + xmlRequest.responseText)
-                        suggestions.push({'label' : 'Wikipedia', 'functionId': 0})
-                        var wiki = JSON.parse(xmlRequest.responseText)
+                if (summaryRequest.readyState === XMLHttpRequest.DONE) {
+                    console.debug("Wiki Plugin | Summary request responce " + summaryRequest.status)
+                    if (summaryRequest.status === 200) {
+                        console.log("Wiki Plugin | wiki responste status 200 "+summaryRequest.responseText)
+                        var wiki = JSON.parse(summaryRequest.responseText)
                         var query = wiki.query
                         var pages = query.pages
                         var keys = Object.keys(pages);
                         for (var i = 0; i < keys.length; i++) {
-                            console.log("Wiki Plugin | query-pages-keys" + keys[i])
-                            var output = metadata.name + " : " + keys[i].extract
+                            var key = keys[i]
+                            var data = pages[key]
+                            var output = data.extract
                             if(keys[i].hasOwnProperty("imageinfo")) {
                                 var imageURL = keys[i].imageinfo[0].url;
                                 output = output+ "<p><img src=\"" + imageURL + "\"></p><p>"
                             }
-                            suggestions.push({'label' : output, 'object': keys[i]});
+                            var locale = Qt.locale().name;
+                            var link = "https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + data.title;
+                            suggestions.push({'label' : output, 'link': link});
                         }
                         callback(true, suggestions, metadata.id)
                     }
 
                 }
             }
-        // Use case 1: User is typing to find a matching wiki article
+            summaryRequest.open("GET", url)
+            summaryRequest.send()
         } else if (inputObject === undefined && inputString.length > 1  && inputString.length < 140) {
             console.debug("Wiki Plugin | sending wiki request ")
             var xmlRequest = new XMLHttpRequest();
@@ -76,7 +79,6 @@ QtObject {
                     console.debug("Wiki Plugin | Article request responce " + xmlRequest.status)
                     if (xmlRequest.status === 200) {
                         console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
-                        //suggestions.push({'label' : 'Wikipedia', 'functionId': 0})
                         var wiki = JSON.parse(xmlRequest.responseText)
                         var query = wiki.query
                         var wikiItems = query["prefixsearch"]
