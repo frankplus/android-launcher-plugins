@@ -22,13 +22,15 @@ QtObject {
 
     function processInput (inputString,  callback, inputObject) {
         // Process the input string here
-        // Validate input for city names fpr autocompretion suggestions
+        // Validate input for city names for autocompretion suggestions
         // Return an object containing the autocompletion or interactive live result
         console.debug("Weather Plugin | Process input string: " + inputString)
+        // Use case 2: User has selected a location to get the weather report as live content
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
             var compareStr = inputObject.name + ", " + inputObject.state + inputObject.country
             if (inputString.toLoverCase().trim() === compareStr.toLoverCase())
                 getWeather(inputObject.lat, inputObject.lon, callback)
+        // Use case 1: User is typing to find a location for a weather report
         } else if (inputObject === undefined && inputString.length > 1 && inputString.length < 100) {
             var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputString.replace(/\s+/g,"") + "&limit=5&appid=" + apiKey;
             var locationRequest = new XMLHttpRequest()

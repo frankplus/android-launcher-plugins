@@ -17,6 +17,7 @@ QtObject {
     }
 
     function executeInput (inputString, functionId, inputObject) {
+        // Process the function here for a selected entity
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? inputObject.title : inputString;
             var locale = Qt.locale().name;
@@ -29,9 +30,12 @@ QtObject {
     }
 
     function processInput (inputString, callback, inputObject) {
-        // Process the input string here
+        // Process the input string here to provide suggestions
         // todo: Validate input by prefix /w
         var suggestions = new Array;
+
+        // Use case 2: An autocompletion and entity suggestion was selected by the user.
+        //             The resut can be a live cntent or function, in this case it's a live content
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
             // todo: retrieve summary
             var locale = Qt.locale().name;
@@ -41,9 +45,9 @@ QtObject {
             var summaryRequest = new XMLHttpRequest();
             summaryRequest.onreadystatechange = function() {
                 if (xmlRequest.readyState === XMLHttpRequest.DONE) {
-                    console.debug("Wiki Plugin | Summary request responce " + xmlRequest.status)
+                    console.debug("Wiki Plugin | Summary request response " + xmlRequest.status)
                     if (xmlRequest.status === 200) {
-                        console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
+                        console.log("Wiki Plugin | Summary request response text: " + xmlRequest.responseText)
                         suggestions.push({'label' : 'Wikipedia', 'functionId': 0})
                         var wiki = JSON.parse(xmlRequest.responseText)
                         var query = wiki.query
@@ -63,6 +67,7 @@ QtObject {
 
                 }
             }
+        // Use case 1: User is typing to find a matching wiki article
         } else if (inputObject === undefined && inputString.length > 1  && inputString.length < 140) {
             console.debug("Wiki Plugin | sending wiki request ")
             var xmlRequest = new XMLHttpRequest();
