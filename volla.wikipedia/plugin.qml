@@ -32,37 +32,31 @@ QtObject {
     function processInput (inputString, callback, inputObject) {
         // Process the input string here to provide suggestions
         // todo: Validate input by prefix /w
-        var suggestions = new Array;
+        var suggestions = new Array
+        var locale = Qt.locale().name
 
         // Use case 2: An autocompletion and entity suggestion was selected by the user.
         //             The resut can be a live cntent or function, in this case it's a live content
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
-            // todo: retrieve summary
-            var locale = Qt.locale().name;
             var url = "https://"+ locale.split('_')[0]
-                    + '.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles='
+                    + ".wikipedia.org/api/rest_v1/page/summary/"
                     + inputObject.entity["title"]
             var summaryRequest = new XMLHttpRequest();
             summaryRequest.onreadystatechange = function() {
                 if (summaryRequest.readyState === XMLHttpRequest.DONE) {
                     console.debug("Wiki Plugin | Summary request responce " + summaryRequest.status)
                     if (summaryRequest.status === 200) {
-                        console.log("Wiki Plugin | wiki responste status 200 "+summaryRequest.responseText)
+                        console.log("Wiki Plugin | Summary request response text " + summaryRequest.responseText)
                         var wiki = JSON.parse(summaryRequest.responseText)
-                        var query = wiki.query
-                        var pages = query.pages
-                        var keys = Object.keys(pages);
-                        for (var i = 0; i < keys.length; i++) {
-                            var key = keys[i]
-                            var data = pages[key]
-                            var output = data.extract
-                            if(keys[i].hasOwnProperty("imageinfo")) {
-                                var imageURL = keys[i].imageinfo[0].url;
-                                output = output+ "<p><img src=\"" + imageURL + "\"></p><p>"
-                            }
-                            var locale = Qt.locale().name;
-                            var link = "https://"+ locale.split('_')[0] + '.wikipedia.org/wiki/' + data.title;
+                        var output
+                        var link
+                        try {
+                            output = wiki.extract
+                            link = wiki.content_urls.mobile.page
+                            if (wiki.thunbnail) output = output + "<p><img src=\"" + wiki.thunbnail.source + "\"></p><p>"
                             suggestions.push({'label' : output, 'link': link});
+                        } catch (err) {
+                            console.error("Wiki Plugin | Couldn't read summary properties: " + err)
                         }
                         callback(true, suggestions, metadata.id)
                     }
@@ -71,8 +65,12 @@ QtObject {
             }
             summaryRequest.open("GET", url)
             summaryRequest.send()
+        // Use case 1: User is typing to find a wiki article
         } else if (inputObject === undefined && inputString.length > 1  && inputString.length < 140) {
-            console.debug("Wiki Plugin | sending wiki request ")
+            console.debug("Wiki Plugin | Sending wiki request ")
+            var wikiArturl = "https://" + locale.split('_')[0]
+                           + ".wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="
+                           + inputString
             var xmlRequest = new XMLHttpRequest();
             xmlRequest.onreadystatechange = function() {
                 if (xmlRequest.readyState === XMLHttpRequest.DONE) {
@@ -95,8 +93,6 @@ QtObject {
                     }
                 }
             }
-            var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputString;
-            console.log("Wiki Plugin | sending get wiki article request on url "+wikiArturl)
             xmlRequest.open("GET", wikiArturl)
             xmlRequest.send()
         } else {
