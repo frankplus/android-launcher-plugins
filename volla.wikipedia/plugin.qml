@@ -6,8 +6,8 @@ QtObject {
         'id': 'volla_wikipedia',
         'name': 'Wikipedia',
         'description': 'It will add feature to open Wikipedia from Springboard',
-        'version': 0.2,
-        'minLauncherVersion': 2.3,
+        'version': 0.3,
+        'minLauncherVersion': 3,
         'maxLauncherVersion': 100,
         'resources': [ ]
     }
@@ -17,6 +17,7 @@ QtObject {
     }
 
     function executeInput (inputString, functionId, inputObject) {
+        // Process the function here for a selected entity
         if (functionId === 0) {
             var parameter = inputObject !== undefined ? inputObject.title : inputString;
             var locale = Qt.locale().name;
@@ -28,24 +29,59 @@ QtObject {
         }
     }
 
-    function processInput (inputString, callback) {
-        // Process the input string here
+    function processInput (inputString, callback, inputObject) {
+        // Process the input string here to provide suggestions
         // todo: Validate input by prefix /w
-        var suggestions = new Array;
-        if (inputString.length > 1  && inputString.length < 140) {
-            console.debug("Wiki Plugin | sending wiki request ")
+        var suggestions = new Array
+        var locale = Qt.locale().name
+
+        // Use case 2: An autocompletion and entity suggestion was selected by the user.
+        //             The resut can be a live cntent or function, in this case it's a live content
+        if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
+            var url = "https://"+ locale.split('_')[0]
+                    + ".wikipedia.org/api/rest_v1/page/summary/"
+                    + inputObject.entity["title"]
+            var summaryRequest = new XMLHttpRequest();
+            summaryRequest.onreadystatechange = function() {
+                if (summaryRequest.readyState === XMLHttpRequest.DONE) {
+                    console.debug("Wiki Plugin | Summary request responce " + summaryRequest.status)
+                    if (summaryRequest.status === 200) {
+                        console.log("Wiki Plugin | Summary request response text " + summaryRequest.responseText)
+                        var wiki = JSON.parse(summaryRequest.responseText)
+                        var output
+                        var link
+                        try {
+                            output = wiki.extract
+                            link = wiki.content_urls.mobile.page
+                            if (wiki.thunbnail) output = output + "<p><img src=\"" + wiki.thunbnail.source + "\"></p><p>"
+                            suggestions.push({'label' : output, 'link': link});
+                        } catch (err) {
+                            console.error("Wiki Plugin | Couldn't read summary properties: " + err)
+                        }
+                        callback(true, suggestions, metadata.id)
+                    }
+
+                }
+            }
+            summaryRequest.open("GET", url)
+            summaryRequest.send()
+        // Use case 1: User is typing to find a wiki article
+        } else if (inputObject === undefined && inputString.length > 1  && inputString.length < 140) {
+            console.debug("Wiki Plugin | Sending wiki request ")
+            var wikiArturl = "https://" + locale.split('_')[0]
+                           + ".wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="
+                           + inputString
             var xmlRequest = new XMLHttpRequest();
             xmlRequest.onreadystatechange = function() {
                 if (xmlRequest.readyState === XMLHttpRequest.DONE) {
-                    console.debug("Wiki Plugin | got wiki request responce"+xmlRequest.status)
+                    console.debug("Wiki Plugin | Article request responce " + xmlRequest.status)
                     if (xmlRequest.status === 200) {
                         console.log("Wiki Plugin | wiki responste status 200 "+xmlRequest.responseText)
-                        suggestions.push({'label' : 'Wikipedia', 'functionId': 0})
                         var wiki = JSON.parse(xmlRequest.responseText)
                         var query = wiki.query
                         var wikiItems = query["prefixsearch"]
                         for (var i = 0; i < wikiItems.length; i++) {
-                            suggestions.push({'label' : wikiItems[i].title, 'object': wikiItems[i]});
+                            suggestions.push({'label' : metadata.name + " : " + wikiItems[i].title, 'object': wikiItems[i]});
                             console.log("Wiki Plugin | wiki items " + wikiItems[i].title)
                         }
                         console.log("Wiki Plugin | Calling callback true")
@@ -57,8 +93,6 @@ QtObject {
                     }
                 }
             }
-            var wikiArturl = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=prefixsearch&pssearch="+inputString;
-            console.log("Wiki Plugin | sending get wiki article request on url "+wikiArturl)
             xmlRequest.open("GET", wikiArturl)
             xmlRequest.send()
         } else {
