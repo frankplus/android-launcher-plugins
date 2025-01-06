@@ -28,7 +28,7 @@ QtObject {
         var suggestions = new Array
         if (inputObject !== undefined && inputObject.pluginId === metadata.id) {
             var compareStr = inputObject.entity['name'] + ", " + inputObject.entity['state'] +","+ inputObject.entity['country']
-        if (inputString.length >=4 && inputString.length <= 20 && inputString.toLowerCase().trim() === compareStr.toLowerCase())
+        if (inputString.length >=4 && inputString.toLowerCase().trim() === compareStr.toLowerCase())
                 getWeather(inputObject.entity['name'],inputObject.entity['lat'], inputObject.entity['lon'], callback)
         } else if (inputObject === undefined && inputString.length >= 4 && inputString.length <= 20) {
             var geoCodingUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + inputString.replace(/\s+/g,"") + "&limit=5&appid=" + apiKey;
