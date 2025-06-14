@@ -1,5 +1,4 @@
 import QtQuick 2.12;
-import Qt.labs.settings 1.0;
 
 QtObject {
 
@@ -13,15 +12,9 @@ QtObject {
         'resources': [ ]
     }
 
-    property string apiKey: settings.apiKey || ""
+    property string apiKey: ""
     property string apiUrl: "https://api.openai.com/v1/responses"
     property string model: "gpt-4.1"
-
-    Settings {
-        id: settings
-        category: "ChatGPT"
-        property string apiKey: ""
-    }
 
     function init (inputParameter) {
         console.debug("ChatGPT Plugin | Initialized");
@@ -29,9 +22,8 @@ QtObject {
 
     function saveApiKey(key) {
         try {
-            settings.apiKey = key;
             apiKey = key;
-            console.debug("ChatGPT Plugin | API key saved to storage");
+            console.debug("ChatGPT Plugin | API key saved to property");
             return true;
         } catch (e) {
             console.error("ChatGPT Plugin | Error saving API key: " + e);
