@@ -158,9 +158,10 @@ QtObject {
                         var response = JSON.parse(request.responseText);
                         var answer = "";
                         
-                        // Parse the standard OpenAI Chat API response format
-                        if (response && response.choices && response.choices.length > 0) {
-                            answer = response.choices[0].message.content.trim();
+                        // Parse the new OpenAI API response format
+                        if (response && response.output && response.output.length > 0 && 
+                            response.output[0].content && response.output[0].content.length > 0) {
+                            answer = response.output[0].content[0].text.trim();
                         } else {
                             throw new Error("Unexpected response format");
                         }
