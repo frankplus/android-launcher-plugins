@@ -127,12 +127,6 @@ QtObject {
             pendingQuery = query;
             pendingCallback = callback;
             
-            // Show a "thinking" message while waiting
-            suggestions.push({
-                'label': '<p><b>ChatGPT:</b> 🤔 Thinking...</p><p>Please wait while I process your request.</p>'
-            });
-            callback(true, suggestions, metadata.id);
-            
             // Start the debounce timer
             console.debug("ChatGPT Plugin | Starting debounce timer for query: " + query);
             debounceTimer.start();
