@@ -1,5 +1,5 @@
 import QtQuick 2.12;
-import QtQuick.LocalStorage 2.12;
+import Qt.labs.settings 1.0;
 
 QtObject {
 
@@ -13,40 +13,25 @@ QtObject {
         'resources': [ ]
     }
 
-    property string apiKey: ""
+    property string apiKey: settings.apiKey || ""
     property string apiUrl: "https://api.openai.com/v1/responses"
     property string model: "gpt-4.1"
 
-    function init (inputParameter) {
-        console.debug("ChatGPT Plugin | Initialized");
-        loadApiKey();
+    Settings {
+        id: settings
+        category: "ChatGPT"
+        property string apiKey: ""
     }
 
-    function loadApiKey() {
-        var db = LocalStorage.openDatabaseSync("VollaPluginChatGPT", "1.0", "ChatGPT Plugin Settings", 1000000);
-        try {
-            db.transaction(function(tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY, value TEXT)');
-                var rs = tx.executeSql('SELECT value FROM settings WHERE key = ?', ['apiKey']);
-                if (rs.rows.length > 0) {
-                    apiKey = rs.rows.item(0).value;
-                    console.debug("ChatGPT Plugin | API key loaded from storage");
-                }
-            });
-        } catch (e) {
-            console.error("ChatGPT Plugin | Error loading API key: " + e);
-        }
+    function init (inputParameter) {
+        console.debug("ChatGPT Plugin | Initialized");
     }
 
     function saveApiKey(key) {
-        var db = LocalStorage.openDatabaseSync("VollaPluginChatGPT", "1.0", "ChatGPT Plugin Settings", 1000000);
         try {
-            db.transaction(function(tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY, value TEXT)');
-                tx.executeSql('INSERT OR REPLACE INTO settings VALUES (?, ?)', ['apiKey', key]);
-                apiKey = key;
-                console.debug("ChatGPT Plugin | API key saved to storage");
-            });
+            settings.apiKey = key;
+            apiKey = key;
+            console.debug("ChatGPT Plugin | API key saved to storage");
             return true;
         } catch (e) {
             console.error("ChatGPT Plugin | Error saving API key: " + e);
