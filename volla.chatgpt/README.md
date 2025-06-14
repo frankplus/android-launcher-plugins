@@ -1,84 +1,72 @@
 # ChatGPT Plugin for Volla Launcher
 
-This plugin integrates OpenAI's ChatGPT directly into the Volla Launcher springboard, allowing you to ask questions and get AI-powered responses without leaving your launcher.
-
-## Features
-
-- Ask questions directly from the springboard
-- Multiple trigger words: `gpt`, `ask`, `chat`, `ai`
-- Formatted responses with proper HTML display
-- Error handling for API issues
-- Rate limiting awareness
+This plugin integrates ChatGPT directly into the Volla Launcher springboard, allowing you to ask questions and get AI-powered responses without leaving your home screen.
 
 ## Setup
 
-1. **Get an OpenAI API Key**
-   - Visit [OpenAI API](https://platform.openai.com/api-keys)
-   - Create an account and generate an API key
-   - Note: This requires a paid OpenAI account for API access
+### 1. Get your OpenAI API Key
+1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Sign in or create an account
+3. Create a new API key
+4. Copy your API key (it starts with `sk-`)
 
-2. **Configure the Plugin**
-   - Open the plugin file: `volla.chatgpt/plugin.qml`
-   - Find the line: `property string apiKey: ""`
-   - Replace with your API key: `property string apiKey: "your-api-key-here"`
+### 2. Configure the Plugin
+1. Open the Volla Launcher springboard (smart text field)
+2. Type: `chatgpt set key YOUR_API_KEY`
+   - Replace `YOUR_API_KEY` with your actual OpenAI API key
+3. Press Enter
+4. You should see a confirmation message
+
+### Alternative Setup
+If you need help with setup, type: `chatgpt setup` in the springboard for detailed instructions.
 
 ## Usage
 
-### Trigger Words
-You can start your queries with any of these words:
-- `gpt [your question]`
-- `ask [your question]`
-- `chat [your question]`
-- `ai [your question]`
+Once configured, you can use any of these trigger words followed by your question:
 
-### Examples
-- `gpt What is the capital of France?`
-- `ask How do I cook pasta?`
-- `chat Tell me a joke`
-- `ai Explain quantum physics simply`
+- `ask [your question]` - Example: `ask What is the capital of France?`
+- `gpt [your question]` - Example: `gpt Explain quantum physics`  
+- `chat [your question]` - Example: `chat Write a poem about spring`
+- `ai [your question]` - Example: `ai Help me plan a dinner party`
 
-### Response Format
-The plugin will display responses in a formatted way:
-- **ChatGPT:** followed by the AI response
-- Clickable link to chat.openai.com for more detailed conversations
+## Features
 
-## Technical Details
+- **Easy Setup**: Configure your API key directly through the launcher interface
+- **Secure Storage**: API key is stored locally using Qt's secure storage
+- **Multiple Triggers**: Use `ask`, `gpt`, `chat`, or `ai` to activate
+- **Error Handling**: Clear error messages for common issues
+- **Rate Limiting**: Handles OpenAI rate limits gracefully
 
-- **Model**: Uses GPT-3.5-turbo by default
-- **Max Tokens**: Limited to 150 tokens per response (about 100-120 words)
-- **Temperature**: Set to 0.7 for balanced creativity
-- **API Endpoint**: OpenAI Chat Completions API
+## Commands
 
-## Error Handling
-
-The plugin handles various error scenarios:
-- **Invalid API Key**: Shows authentication error
-- **Rate Limiting**: Displays rate limit message
-- **Network Issues**: Shows general API error
-- **No API Key**: Prompts to configure API key
-
-## Security Notes
-
-- **Never commit your API key to version control**
-- Consider using environment variables for production deployments
-- Monitor your OpenAI API usage to avoid unexpected charges
-- The plugin includes basic HTML escaping for security
-
-## Customization
-
-You can modify the plugin by editing `plugin.qml`:
-- Change the model (e.g., to `gpt-4` if you have access)
-- Adjust `max_tokens` for longer/shorter responses
-- Modify trigger words in the `triggerWords` array
-- Customize the response formatting
+- `chatgpt setup` - Show setup instructions
+- `chatgpt help` - Show help information  
+- `chatgpt config` - Show configuration options
+- `chatgpt set key [API_KEY]` - Set your OpenAI API key
 
 ## Troubleshooting
 
-1. **No response**: Check your API key and internet connection
-2. **Rate limit errors**: Wait a few minutes before trying again
-3. **Long responses cut off**: Increase `max_tokens` in the plugin
-4. **Plugin not triggering**: Make sure you're using one of the trigger words
+### "API key not configured" error
+- Make sure you've set your API key using `chatgpt set key YOUR_API_KEY`
+- Verify your API key is valid and starts with `sk-`
 
-## License
+### "Invalid API key" error  
+- Double-check your API key is correct
+- Ensure you have sufficient credits in your OpenAI account
+- Try setting the key again: `chatgpt set key YOUR_API_KEY`
 
-This plugin follows the same license as the main Volla Launcher plugins repository.
+### "Rate limit exceeded" error
+- You've made too many requests in a short time
+- Wait a few minutes and try again
+- Consider upgrading your OpenAI plan for higher limits
+
+## Privacy & Security
+
+- Your API key is stored locally on your device using Qt's secure storage
+- Conversations are sent to OpenAI's servers as per their privacy policy
+- No conversation data is stored locally by this plugin
+
+## Version History
+
+- **v0.2**: Added user-friendly API key configuration through the launcher interface
+- **v0.1**: Initial release with basic ChatGPT integration
