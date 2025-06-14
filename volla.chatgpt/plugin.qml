@@ -15,6 +15,22 @@ QtObject {
     property string apiKey: ""
     property string apiUrl: "https://api.openai.com/v1/responses"
     property string model: "gpt-4.1"
+    
+    // Debouncing properties
+    property var pendingCallback: null
+    property string pendingQuery: ""
+    property Timer debounceTimer: Timer {
+        interval: 3000 // 3 seconds
+        repeat: false
+        onTriggered: {
+            if (pendingCallback && pendingQuery.length > 0) {
+                console.debug("ChatGPT Plugin | Debounce timer triggered, sending request for: " + pendingQuery);
+                getChatGPTResponse(pendingQuery, pendingCallback);
+                pendingCallback = null;
+                pendingQuery = "";
+            }
+        }
+    }
 
     function init (inputParameter) {
         console.debug("ChatGPT Plugin | Initialized");
@@ -104,7 +120,22 @@ QtObject {
                 return;
             }
             
-            getChatGPTResponse(query, callback);
+            // Stop any existing timer
+            debounceTimer.stop();
+            
+            // Store the query and callback for the debounced execution
+            pendingQuery = query;
+            pendingCallback = callback;
+            
+            // Show a "thinking" message while waiting
+            suggestions.push({
+                'label': '<p><b>ChatGPT:</b> 🤔 Thinking...</p><p>Please wait while I process your request.</p>'
+            });
+            callback(true, suggestions, metadata.id);
+            
+            // Start the debounce timer
+            console.debug("ChatGPT Plugin | Starting debounce timer for query: " + query);
+            debounceTimer.start();
         } else if (shouldTrigger && query.length === 0) {
             if (apiKey === "") {
                 suggestions.push({
