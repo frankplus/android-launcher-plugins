@@ -20,7 +20,7 @@ QtObject {
     property var pendingCallback: null
     property string pendingQuery: ""
     property Timer debounceTimer: Timer {
-        interval: 3000 // 3 seconds
+        interval: 2000 // 3 seconds
         repeat: false
         onTriggered: {
             if (pendingCallback && pendingQuery.length > 0) {
